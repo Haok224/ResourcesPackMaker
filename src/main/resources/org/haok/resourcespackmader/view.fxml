@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.leewyatt.rxcontrols.controls.RXTranslationButton?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -29,11 +29,7 @@
                <children>
                   <Label layoutX="114.0" layoutY="38.0" prefHeight="15.0" prefWidth="485.0" text="请选择一个字体文件来更改Minecraft中的字体。" />
                   <TextField fx:id="ttf_path" editable="false" layoutX="90.0" layoutY="86.0" onDragDropped="#ttf_dropped" onDragOver="#ttf_over" prefHeight="23.0" prefWidth="348.0" />
-                  <RXTranslationButton fx:id="choose_ttf" layoutX="438.0" layoutY="84.0" onAction="#choose_ttf" prefHeight="0.0" prefWidth="95.0" text="选择文件">
-                     <graphic>
-                        <Label text="浏览" textFill="WHITE" />
-                     </graphic>
-                  </RXTranslationButton>
+                  <Button fx:id="choose_ttf" layoutX="438.0" layoutY="86.0" mnemonicParsing="false" onAction="#choose_ttf" text="选择文件" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -42,5 +38,10 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
       </content>
     </Tab>
+      <Tab text="导出">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+        </content>
+      </Tab>
   </tabs>
 </TabPane>
