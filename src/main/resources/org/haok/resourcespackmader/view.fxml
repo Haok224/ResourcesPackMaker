@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" type="TabPane" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.haok.resourcespackmader.AppController">
+  <tabs>
+    <Tab text="字体">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Label layoutX="114.0" layoutY="38.0" prefHeight="15.0" prefWidth="485.0" text="请选择一个字体文件来更改Minecraft中的字体。" />
+                  <TextField fx:id="ttf_path" editable="false" layoutX="90.0" layoutY="86.0" onDragDropped="#ttf_dropped" onDragOver="#ttf_over" prefHeight="23.0" prefWidth="348.0" />
+               </children></AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="主菜单全景图">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+      </content>
+    </Tab>
+  </tabs>
+</fx:root>
