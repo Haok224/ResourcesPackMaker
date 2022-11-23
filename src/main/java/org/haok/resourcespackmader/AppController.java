@@ -1,7 +1,6 @@
 package org.haok.resourcespackmader;
 
 
-import com.leewyatt.rxcontrols.controls.RXTranslationButton;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,7 +14,16 @@ import java.io.File;
 import java.util.List;
 
 public class AppController {
-
+    @FXML
+    private Button export;
+    @FXML
+    private TextField path;
+    @FXML
+    private TextField pack_version;
+    @FXML
+    private TextField pack_introduction;
+    @FXML
+    private TextField pack_name;
     @FXML
     private Button choose_ttf;
     @FXML
