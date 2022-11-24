@@ -1,8 +1,7 @@
-module org.haok.resourcespackmader {
+module org.haok.resourcespackmaker {
     requires javafx.controls;
     requires javafx.fxml;
-    requires rxcontrols;
 
-    opens org.haok.resourcespackmader to javafx.fxml;
-    exports org.haok.resourcespackmader;
+    opens org.haok.resourcespackmaker to javafx.fxml;
+    exports org.haok.resourcespackmaker;
 }

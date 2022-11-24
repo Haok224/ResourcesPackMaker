@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.haok</groupId>
-    <artifactId>ResourcesPackMader</artifactId>
+    <artifactId>ResourcesPackMaker</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>ResourcesPackMader</name>
 
@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.haok.resourcespackmader/org.haok.resourcespackmader.App
+                            <mainClass>org.haok.resourcespackmader/org.haok.resourcespackmaker.App
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
