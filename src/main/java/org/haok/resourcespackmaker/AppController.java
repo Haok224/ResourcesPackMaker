@@ -13,6 +13,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class AppController {
@@ -111,6 +112,16 @@ public class AppController {
     public void make(ActionEvent actionEvent) {
         PackConfig.packName = pack_name.getText();
         PackConfig.packIntroduction = pack_introduction.getText();
+        try{
+            PackConfig.packVersion = Integer.parseInt(pack_version.getText());
+        }catch (NumberFormatException e){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("错误");
+            alert.setHeaderText("版本号输入有误");
+            alert.setContentText("请不要在输入框内输入除数字以外的字符。");
+            alert.show();
+            return;
+        }
         if (path.getText().equals("")){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("错误");
@@ -120,7 +131,11 @@ public class AppController {
             return;
         }
         PackConfig.exportPath = new File(path.getText());
-        PackConfig.makePack();
+        try {
+            PackConfig.makePack(isZip.isSelected());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void chooseExportPath(ActionEvent actionEvent) {
@@ -128,5 +143,6 @@ public class AppController {
         chooser.setTitle("选择目录。");
         File file = chooser.showDialog(App.primaryStage);
         PackConfig.exportPath = file;
+        path.setText(file.getAbsolutePath());
     }
 }
