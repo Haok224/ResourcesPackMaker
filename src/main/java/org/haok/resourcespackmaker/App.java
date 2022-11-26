@@ -9,6 +9,7 @@ import java.io.IOException;
 
 public class App extends Application {
     static Stage primaryStage;
+    static final String SEPARATOR = System.getProperty("file.separator");
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;

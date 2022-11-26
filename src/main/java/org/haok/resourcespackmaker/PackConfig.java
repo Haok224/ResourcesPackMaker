@@ -12,29 +12,35 @@ public class PackConfig {
     public static String packIntroduction;
     public static File exportPath;
     public static int packVersion;
+
     public static void makePack(boolean isZip) throws IOException {
-        if(!check(packName)){
+        if (!check(packName)) {
             return;
         }
 
-        File packPath = new File(exportPath.getAbsolutePath()+"\\"+packName);
-        File pack_mcmeta = new File(packPath.getAbsolutePath()+"\\pack.mcmeta");
+        File packPath = new File(exportPath.getAbsolutePath() + "" + App.SEPARATOR + "" + packName);
+        File pack_mcmeta = new File(packPath.getAbsolutePath() + "" + App.SEPARATOR + "pack.mcmeta");
         System.out.println(packPath.mkdirs());
         System.out.println(pack_mcmeta.createNewFile());
         BufferedWriter writer = new BufferedWriter(new FileWriter(pack_mcmeta));
-        writer.write("{\"pack\":{\"pack_format\":"+packVersion+",\"description\":\""+packIntroduction+"\"}}");
+        writer.write("{\"pack\":{\"pack_format\":" + packVersion + ",\"description\":\"" + packIntroduction + "\"}}");
         writer.close();
-        if(!(ttfFile == null)){
-            File fontFile = new File(packPath.getAbsolutePath()+"\\assets\\minecraft\\font\\font.ttf");
-            File fontPath = new File(packPath.getAbsolutePath()+"\\assets\\minecraft\\font");
-            fontPath.mkdirs();
+        if (!(ttfFile == null)) {
+            File fontPath = new File(packPath.getAbsolutePath() + "" + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "font");
+            File fontFile = new File(fontPath.getAbsolutePath() + "" + App.SEPARATOR + "font.ttf");
+            System.out.println(fontPath.mkdirs());
             System.out.println(fontFile.createNewFile());
-            copyFileUsingFileStreams(ttfFile,fontFile);
+            copyFileUsingFileStreams(ttfFile, fontFile);
+            File json = new File(fontPath + "" + App.SEPARATOR + "default.json");
+            System.out.println(json.createNewFile());
+            BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(json));
+            jsonWriter.write("{\"providers\":[{\"type\":\"ttf\",\"file\":\"font.ttf\",\"shift\":[0,1],\"size\":11.0,\"oversample\":4.0}]}");
+            jsonWriter.close();
         }
     }
 
     private static boolean check(String name) {
-        if (name.equals("")){
+        if (name.equals("")) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("错误");
             alert.setHeaderText("资源包名称为空");

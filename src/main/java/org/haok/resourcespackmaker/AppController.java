@@ -3,17 +3,20 @@ package org.haok.resourcespackmaker;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
 public class AppController {
@@ -63,7 +66,7 @@ public class AppController {
         }
     }
     @FXML
-    void choose_ttf(ActionEvent actionEvent) {
+    void choose_ttf(ActionEvent ignoredActionEvent) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("选择文件");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("字体文件","*.ttf"));
@@ -75,41 +78,21 @@ public class AppController {
         PackConfig.ttfFile = file;
     }
     @FXML
-    void howMake(ActionEvent actionEvent) {
-        Stage stage = new Stage();
-        TextArea area = new TextArea();
-        area.setText(
-                        "参考： https://www.mcbbs.net/thread-1079039-1-1.html \n" +
-                        "如何制作主菜单全景图\n" +
-                        "\n" +
-                        "常规方式：截图\n" +
-                        "\n" +
-                        "最简单的方法就是在游戏里看向六个方向，分别截一张图：\n" +
-                        "\n" +
-                        "1. 首先要在启动器中将游戏窗口大小改为 512 x 512。\n" +
-                        "2. 拍摄前要阻止各种可能的变化，防止不同截图衔接不上，最好将世界变成彻底静态的。\n" +
-                        "\n" +
-                        "/gamerule doDaylightCycle false 停止昼夜交替\n" +
-                        "关闭飘来飘去的云\n" +
-                        "如果开的光影中有各种晃动元素，也要关掉\n" +
-                        "\n" +
-                        "3. 将角视场调整为82\n" +
-                        "4. 按下 F1（有些笔记本需要 Fn + F1）隐藏一切 UI\n" +
-                        "5. 选择合适的位置，选择合适的时间，调整光影的各种设置以达到最符合氛围的效果\n" +
-                        "\n" +
-                        "\"/tp @p ~ ~ ~ -90 0\"，按下 F2（有些笔记本需要 Fn + F2）截图得到 \"panorama_0.png\"\n" +
-                        "\"/tp @p ~ ~ ~ 0 0\"，截图得到 \"panorama_1.png\"\n" +
-                        "\"/tp @p ~ ~ ~ 180 0\"，截图得到 \"panorama_2.png\"\n" +
-                        "\"/tp @p ~ ~ ~ 90 0\"，截图得到 \"panorama_3.png\"\n" +
-                        "\"/tp @p ~ ~ ~ -90 -90\"，截图得到 \"panorama_4.png\"\n" +
-                        "\"/tp @p ~ ~ ~ -90 90\"，截图得到 \"panorama_5.png\"`\n"
-                );
-        stage.setScene(new Scene(area));
-        area.setEditable(false);
-        stage.show();
+    void howMake(ActionEvent ignoredActionEvent) {
+        if (Desktop.isDesktopSupported()){
+            try {
+                Desktop.getDesktop().browse(new URI("https://sqwatermark.com/resguide/vanilla/texture/gui/panorama.html#%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%BB%E8%8F%9C%E5%8D%95%E5%85%A8%E6%99%AF%E5%9B%BE"));
+            } catch (IOException e) {
+                //TODO log system
+                throw new RuntimeException(e);
+            } catch (URISyntaxException e) {
+                //TODO log system
+                throw new RuntimeException(e);
+            }
+        }
     }
 
-    public void make(ActionEvent actionEvent) {
+    public void make(ActionEvent ignoredActionEvent) {
         PackConfig.packName = pack_name.getText();
         PackConfig.packIntroduction = pack_introduction.getText();
         try{
@@ -138,7 +121,7 @@ public class AppController {
         }
     }
 
-    public void chooseExportPath(ActionEvent actionEvent) {
+    public void chooseExportPath(ActionEvent ignoredActionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("选择目录。");
         File file = chooser.showDialog(App.primaryStage);
