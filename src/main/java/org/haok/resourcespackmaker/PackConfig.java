@@ -3,8 +3,10 @@ package org.haok.resourcespackmaker;
 import javafx.scene.control.Alert;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class PackConfig {
     public static File ttfFile;
@@ -12,13 +14,17 @@ public class PackConfig {
     public static String packIntroduction;
     public static File exportPath;
     public static int packVersion;
+    public static boolean success = false;
+    public static File successFile;
 
-    public static void makePack(boolean isZip) throws IOException {
+    public static void makePack(boolean isZip) throws Exception {
         if (!check(packName)) {
             return;
         }
-
-        File packPath = new File(exportPath.getAbsolutePath() + "" + App.SEPARATOR + "" + packName);
+        if (success){
+            success = false;
+        }
+        File packPath = new File(exportPath.getAbsolutePath()  + App.SEPARATOR  + packName);
         File pack_mcmeta = new File(packPath.getAbsolutePath() + "" + App.SEPARATOR + "pack.mcmeta");
         System.out.println(packPath.mkdirs());
         System.out.println(pack_mcmeta.createNewFile());
@@ -30,13 +36,23 @@ public class PackConfig {
             File fontFile = new File(fontPath.getAbsolutePath() + "" + App.SEPARATOR + "font.ttf");
             System.out.println(fontPath.mkdirs());
             System.out.println(fontFile.createNewFile());
-            copyFileUsingFileStreams(ttfFile, fontFile);
+            copy(ttfFile, fontFile);
             File json = new File(fontPath + "" + App.SEPARATOR + "default.json");
             System.out.println(json.createNewFile());
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(json));
-            jsonWriter.write("{\"providers\":[{\"type\":\"ttf\",\"file\":\"font.ttf\",\"shift\":[0,1],\"size\":11.0,\"oversample\":4.0}]}");
+            jsonWriter.write("{\"providers\":[{\"type\":\"ttf\",\"file\":\"minecraft:font.ttf\",\"shift\":[0,1],\"size\":11.0,\"oversample\":4.0}]}");
             jsonWriter.close();
+            successFile = packPath;
+            if (isZip) {
+                File zipFile = new File(exportPath.toString()+App.SEPARATOR+packName+".zip");
+                ArrayList<File> fileArrayList = new ArrayList<>();
+                fileArrayList.add(new File(packPath.getAbsolutePath()+App.SEPARATOR+"assets"));
+                fileArrayList.add(pack_mcmeta);
+                ZipTools.toZip(zipFile.getAbsolutePath(),fileArrayList);
+                successFile = zipFile;
+            }
         }
+        success = true;
     }
 
     private static boolean check(String name) {
@@ -51,21 +67,14 @@ public class PackConfig {
         return true;
     }
 
-    private static void copyFileUsingFileStreams(File source, File dest)
+    private static void copy(File source, File dest)
             throws IOException {
-        InputStream input = null;
-        OutputStream output = null;
-        try {
-            input = new FileInputStream(source);
-            output = new FileOutputStream(dest);
+        try (InputStream input = new FileInputStream(source); OutputStream output = new FileOutputStream(dest)) {
             byte[] buf = new byte[1024];
             int bytesRead;
             while ((bytesRead = input.read(buf)) > 0) {
                 output.write(buf, 0, bytesRead);
             }
-        } finally {
-            input.close();
-            output.close();
         }
     }
 }

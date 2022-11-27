@@ -55,8 +55,10 @@
                   <TextField fx:id="path" layoutX="14.0" layoutY="38.0" />
                   <Label layoutX="14.0" layoutY="23.0" text="导出路径：" />
                   <CheckBox fx:id="isZip" layoutX="253.0" layoutY="41.0" mnemonicParsing="false" text="制作为压缩包" />
-                  <Button fx:id="make" layoutX="47.0" layoutY="125.0" mnemonicParsing="false" text="制作" onAction="#make"/>
-                  <Button fx:id="chooseExportPath" layoutX="176.0" layoutY="38.0" mnemonicParsing="false" text="浏览" onAction="#chooseExportPath"/>
+                  <Button fx:id="make" layoutX="47.0" layoutY="125.0" mnemonicParsing="false" onAction="#make" text="制作" />
+                  <Button fx:id="chooseExportPath" layoutX="176.0" layoutY="38.0" mnemonicParsing="false" onAction="#chooseExportPath" text="浏览" />
+                  <Label fx:id="showText" layoutX="44.0" layoutY="178.0" text="制作完成" visible="false" />
+                  <Button fx:id="showFile" layoutX="47.0" layoutY="221.0" mnemonicParsing="false" onAction="#showFile" text="在文件夹中显示" visible="false" />
                </children></AnchorPane>
         </content>
       </Tab>

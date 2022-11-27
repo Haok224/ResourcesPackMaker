@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
@@ -20,6 +21,8 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 public class AppController {
+    public Button showFile;
+    public Label showText;
     @FXML
     private Button chooseExportPath;
 
@@ -118,6 +121,12 @@ public class AppController {
             PackConfig.makePack(isZip.isSelected());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }catch (Exception r){
+            r.printStackTrace();
+        }
+        if (PackConfig.success){
+            showText.setVisible(true);
+            showFile.setVisible(true);
         }
     }
 
@@ -127,5 +136,25 @@ public class AppController {
         File file = chooser.showDialog(App.primaryStage);
         PackConfig.exportPath = file;
         path.setText(file.getAbsolutePath());
+    }
+
+    public void showFile(ActionEvent ignoredActionEvent) {
+        if (showFile.isVisible()){
+            if (App.SEPARATOR.equals("\\")){
+                ProcessBuilder builder = new ProcessBuilder("explorer","/select,",PackConfig.successFile.getAbsolutePath());
+                try {
+                    builder.start();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else if (Desktop.isDesktopSupported()) {
+
+                try {
+                    Desktop.getDesktop().open(PackConfig.exportPath);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
     }
 }
