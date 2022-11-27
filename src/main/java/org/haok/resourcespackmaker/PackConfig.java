@@ -21,10 +21,10 @@ public class PackConfig {
         if (!check(packName)) {
             return;
         }
-        if (success){
+        if (success) {
             success = false;
         }
-        File packPath = new File(exportPath.getAbsolutePath()  + App.SEPARATOR  + packName);
+        File packPath = new File(exportPath.getAbsolutePath() + App.SEPARATOR + packName);
         File pack_mcmeta = new File(packPath.getAbsolutePath() + "" + App.SEPARATOR + "pack.mcmeta");
         System.out.println(packPath.mkdirs());
         System.out.println(pack_mcmeta.createNewFile());
@@ -44,12 +44,20 @@ public class PackConfig {
             jsonWriter.close();
             successFile = packPath;
             if (isZip) {
-                File zipFile = new File(exportPath.toString()+App.SEPARATOR+packName+".zip");
+                File zipFile = new File(exportPath.toString() + App.SEPARATOR + packName + ".zip");
                 ArrayList<File> fileArrayList = new ArrayList<>();
-                fileArrayList.add(new File(packPath.getAbsolutePath()+App.SEPARATOR+"assets"));
+                fileArrayList.add(new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets"));
                 fileArrayList.add(pack_mcmeta);
-                ZipTools.toZip(zipFile.getAbsolutePath(),fileArrayList);
+                ZipTools.toZip(zipFile.getAbsolutePath(), fileArrayList);
                 successFile = zipFile;
+                File[] files = packPath.listFiles();
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        file.delete();
+                    } else {
+                        file.delete();
+                    }
+                }
             }
         }
         success = true;

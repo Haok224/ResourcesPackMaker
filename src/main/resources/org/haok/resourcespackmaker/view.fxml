@@ -6,6 +6,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.haok.resourcespackmaker.AppController">
@@ -20,6 +21,9 @@
                   <TextField fx:id="pack_introduction" layoutX="15.0" layoutY="82.0" prefHeight="23.0" prefWidth="542.0" />
                   <Label layoutX="15.0" layoutY="105.0" text="版本：" />
                   <TextField fx:id="pack_version" layoutX="15.0" layoutY="120.0" />
+                  <Label layoutX="18.0" layoutY="143.0" text="图标：" />
+                  <TextField fx:id="icon" layoutX="15.0" layoutY="158.0" onDragDropped="#iconDropped" onDragOver="#iconOver" />
+                  <ImageView fx:id="iconView" fitHeight="150.0" fitWidth="200.0" layoutX="18.0" layoutY="186.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
         </content>

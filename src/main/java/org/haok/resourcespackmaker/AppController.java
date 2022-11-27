@@ -69,7 +69,7 @@ public class AppController {
         }
     }
     @FXML
-    void choose_ttf(ActionEvent ignoredActionEvent) {
+    void choose_ttf(ActionEvent actionEvent) {
         FileChooser chooser = new FileChooser();
         chooser.setTitle("选择文件");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("字体文件","*.ttf"));
@@ -81,13 +81,12 @@ public class AppController {
         PackConfig.ttfFile = file;
     }
     @FXML
-    void howMake(ActionEvent ignoredActionEvent) {
+    void howMake(ActionEvent actionEvent) {
         if (Desktop.isDesktopSupported()){
             try {
                 Desktop.getDesktop().browse(new URI("https://sqwatermark.com/resguide/vanilla/texture/gui/panorama.html#%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%BB%E8%8F%9C%E5%8D%95%E5%85%A8%E6%99%AF%E5%9B%BE"));
             } catch (IOException e) {
-                //TODO log system
-                throw new RuntimeException(e);
+                App.log.println(e);
             } catch (URISyntaxException e) {
                 //TODO log system
                 throw new RuntimeException(e);
@@ -95,7 +94,7 @@ public class AppController {
         }
     }
 
-    public void make(ActionEvent ignoredActionEvent) {
+    public void make(ActionEvent actionEvent) {
         PackConfig.packName = pack_name.getText();
         PackConfig.packIntroduction = pack_introduction.getText();
         try{
@@ -130,7 +129,7 @@ public class AppController {
         }
     }
 
-    public void chooseExportPath(ActionEvent ignoredActionEvent) {
+    public void chooseExportPath(ActionEvent actionEvent) {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("选择目录。");
         File file = chooser.showDialog(App.primaryStage);
@@ -138,7 +137,7 @@ public class AppController {
         path.setText(file.getAbsolutePath());
     }
 
-    public void showFile(ActionEvent ignoredActionEvent) {
+    public void showFile(ActionEvent actionEvent) {
         if (showFile.isVisible()){
             if (App.SEPARATOR.equals("\\")){
                 ProcessBuilder builder = new ProcessBuilder("explorer","/select,",PackConfig.successFile.getAbsolutePath());
@@ -156,5 +155,11 @@ public class AppController {
                 }
             }
         }
+    }
+
+    public void iconDropped(DragEvent dragEvent) {
+    }
+
+    public void iconOver(DragEvent dragEvent) {
     }
 }
