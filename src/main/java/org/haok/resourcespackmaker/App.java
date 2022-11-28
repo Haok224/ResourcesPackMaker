@@ -18,6 +18,7 @@ public class App extends Application {
     public static PrintStream log;
     public static final String START_TIME = new SimpleDateFormat("yyyy_MM_dd_HH-mm-ss").format(new Date());
     public static final String WORK_DIR = System.getProperty("user.dir");
+
     @Override
     public void start(Stage stage) throws IOException {
         primaryStage = stage;
@@ -29,8 +30,8 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        File logFile =  new File(WORK_DIR+SEPARATOR+"log"+SEPARATOR+START_TIME+".log");
-        File logDir = new File(WORK_DIR+SEPARATOR+"log");
+        File logFile = new File(WORK_DIR + SEPARATOR + "log" + SEPARATOR + START_TIME + ".log");
+        File logDir = new File(WORK_DIR + SEPARATOR + "log");
         System.out.println(logFile);
         System.out.println(logDir);
         try {
@@ -38,7 +39,7 @@ public class App extends Application {
             System.out.println(logFile.createNewFile());
             FileOutputStream stream = new FileOutputStream(logFile);
             log = new PrintStream(stream);
-            log.println("Application start at "+START_TIME);
+            log.println("Application start at " + START_TIME);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

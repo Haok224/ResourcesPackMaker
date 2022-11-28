@@ -14,6 +14,7 @@ public class PackConfig {
     public static int packVersion;
     public static boolean success = false;
     public static File successFile;
+    public static File iconFile;
 
     public static void makePack(boolean isZip) throws Exception {
         if (!check(packName)) {
@@ -41,6 +42,11 @@ public class PackConfig {
             jsonWriter.write("{\"providers\":[{\"type\":\"ttf\",\"file\":\"minecraft:font.ttf\",\"shift\":[0,1],\"size\":11.0,\"oversample\":4.0}]}");
             jsonWriter.close();
             successFile = packPath;
+            if (!(iconFile == null)){
+                File icon = new File(packPath.getAbsolutePath()+App.SEPARATOR+"pack.png");
+                App.log.println("make icon file:"+icon.createNewFile());
+                copy(iconFile,icon);
+            }
             if (isZip) {
                 File zipFile = new File(exportPath.toString() + App.SEPARATOR + packName + ".zip");
                 ArrayList<File> fileArrayList = new ArrayList<>();

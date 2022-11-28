@@ -6,7 +6,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipTools {
-    private static final byte[] buf = new byte[1024*1024];
+    private static final byte[] buf = new byte[1024 * 1024];
 
     public static void toZip(String zipFileName, List<File> srcFiles) {
         long start = System.currentTimeMillis();
