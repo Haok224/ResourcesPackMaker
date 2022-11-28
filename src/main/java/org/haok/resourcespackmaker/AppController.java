@@ -41,6 +41,13 @@ public class AppController {
     public TextField path4;
     public TextField path5;
     public TextField backgroundPath;
+    public Button btnBackground;
+    public Button btn5;
+    public Button btn4;
+    public Button btn3;
+    public Button btn2;
+    public Button btn1;
+    public Button btn0;
     @FXML
     private Button chooseExportPath;
 
@@ -104,8 +111,8 @@ public class AppController {
         PackConfig.ttfFile = file;
         ttf_path.setText(file.getAbsolutePath());
         try {
-            english.setFont(Font.loadFont(new FileInputStream(file),16));
-            chinese.setFont(Font.loadFont(new FileInputStream(file),16));
+            english.setFont(Font.loadFont(new FileInputStream(file), 16));
+            chinese.setFont(Font.loadFont(new FileInputStream(file), 16));
         } catch (FileNotFoundException e) {
             App.log.println(e);
         }
@@ -204,6 +211,8 @@ public class AppController {
 
     public void chooseIcon() {
         FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("图片文件", "*.png"));
+        chooser.setTitle("选择图片");
         File file = chooser.showOpenDialog(App.primaryStage);
         if (!(file == null)) {
             try {
@@ -220,5 +229,75 @@ public class AppController {
             iconView.setImage(new Image(file.getAbsolutePath()));
             PackConfig.iconFile = file;
         }
+    }
+
+    public void chooseBackground() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        backgroundPath.setText(file.getAbsolutePath());
+        PackConfig.background = file;
+    }
+
+    public void choose5() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        path5.setText(file.getAbsolutePath());
+        PackConfig.panorama5 = file;
+    }
+
+    public void choose4() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        path4.setText(file.getAbsolutePath());
+        PackConfig.panorama4 = file;
+    }
+
+    public void choose3() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        path3.setText(file.getAbsolutePath());
+        PackConfig.panorama3 = file;
+    }
+
+    public void choose2() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        path2.setText(file.getAbsolutePath());
+        PackConfig.panorama2 = file;
+    }
+
+    public void choose1() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        path1.setText(file.getAbsolutePath());
+        PackConfig.panorama1 = file;
+    }
+
+    public void choose0() {
+        File file = choosePanorama();
+        if ((file == null)){
+            return;
+        }
+        path0.setText(file.getAbsolutePath());
+        PackConfig.panorama0 = file;
+    }
+
+    private static File choosePanorama() {
+        FileChooser chooser = new FileChooser();
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("图片文件", "*.png"));
+        chooser.setTitle("选择文件");
+        return chooser.showOpenDialog(App.primaryStage);
     }
 }

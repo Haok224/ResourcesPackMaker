@@ -15,6 +15,13 @@ public class PackConfig {
     public static boolean success = false;
     public static File successFile;
     public static File iconFile;
+    public static File panorama0;
+    public static File panorama1;
+    public static File panorama2;
+    public static File panorama3;
+    public static File panorama4;
+    public static File panorama5;
+    public static File background;
 
     public static void makePack(boolean isZip) throws Exception {
         if (!check(packName)) {
@@ -42,28 +49,22 @@ public class PackConfig {
             jsonWriter.write("{\"providers\":[{\"type\":\"ttf\",\"file\":\"minecraft:font.ttf\",\"shift\":[0,1],\"size\":11.0,\"oversample\":4.0}]}");
             jsonWriter.close();
             successFile = packPath;
-            if (!(iconFile == null)){
-                File icon = new File(packPath.getAbsolutePath()+App.SEPARATOR+"pack.png");
-                App.log.println("make icon file:"+icon.createNewFile());
-                copy(iconFile,icon);
+            if (!(iconFile == null)) {
+                File icon = new File(packPath.getAbsolutePath() + App.SEPARATOR + "pack.png");
+                App.log.println("make icon file:" + icon.createNewFile());
+                copy(iconFile, icon);
             }
             if (isZip) {
                 File zipFile = new File(exportPath.toString() + App.SEPARATOR + packName + ".zip");
                 ArrayList<File> fileArrayList = new ArrayList<>();
                 fileArrayList.add(new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets"));
                 fileArrayList.add(pack_mcmeta);
+                if (!(iconFile == null)){
+                    fileArrayList.add(iconFile);
+                }
                 ZipTools.toZip(zipFile.getAbsolutePath(), fileArrayList);
                 successFile = zipFile;
-                File[] files = packPath.listFiles();
-                for (File file : Objects.requireNonNull(files)) {
-                    if (file != null) {
-                        if (file.isDirectory()) {
-                            App.log.println("delete dir:" + file.delete());
-                        } else {
-                            App.log.println("delete file:" + file.delete());
-                        }
-                    }
-                }
+                deleteDir(packPath);
             }
         }
         success = true;
@@ -89,6 +90,25 @@ public class PackConfig {
             while ((bytesRead = input.read(buf)) > 0) {
                 output.write(buf, 0, bytesRead);
             }
+        }
+    }
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (String child : children) {
+                boolean success = deleteDir
+                        (new File(dir, child));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        if(dir.delete()) {
+            App.log.println("dir was deleted");
+            return true;
+        } else {
+            System.out.println("dir was not deleted(delete fail)");
+            return false;
         }
     }
 }
