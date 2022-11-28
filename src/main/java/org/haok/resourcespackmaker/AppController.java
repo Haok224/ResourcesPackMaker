@@ -3,26 +3,40 @@ package org.haok.resourcespackmaker;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Objects;
 
 public class AppController {
     public Button showFile;
     public Label showText;
+    public TextField icon;
+    public ImageView iconView;
+    public Button chooseIcon;
+    public Label please;
     @FXML
     private Button chooseExportPath;
 
@@ -80,21 +94,8 @@ public class AppController {
         ttf_path.setText(file.getAbsolutePath());
         PackConfig.ttfFile = file;
     }
-    @FXML
-    void howMake(ActionEvent actionEvent) {
-        if (Desktop.isDesktopSupported()){
-            try {
-                Desktop.getDesktop().browse(new URI("https://sqwatermark.com/resguide/vanilla/texture/gui/panorama.html#%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%BB%E8%8F%9C%E5%8D%95%E5%85%A8%E6%99%AF%E5%9B%BE"));
-            } catch (IOException e) {
-                App.log.println(e);
-            } catch (URISyntaxException e) {
-                //TODO log system
-                throw new RuntimeException(e);
-            }
-        }
-    }
 
-    public void make(ActionEvent actionEvent) {
+    public void make() {
         PackConfig.packName = pack_name.getText();
         PackConfig.packIntroduction = pack_introduction.getText();
         try{
@@ -105,6 +106,7 @@ public class AppController {
             alert.setHeaderText("版本号输入有误");
             alert.setContentText("请不要在输入框内输入除数字以外的字符。");
             alert.show();
+            App.log.println(e);
             return;
         }
         if (path.getText().equals("")){
@@ -118,10 +120,8 @@ public class AppController {
         PackConfig.exportPath = new File(path.getText());
         try {
             PackConfig.makePack(isZip.isSelected());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }catch (Exception r){
-            r.printStackTrace();
+        } catch (Exception e) {
+            App.log.println(e);
         }
         if (PackConfig.success){
             showText.setVisible(true);
@@ -129,15 +129,17 @@ public class AppController {
         }
     }
 
-    public void chooseExportPath(ActionEvent actionEvent) {
+    public void chooseExportPath() {
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("选择目录。");
         File file = chooser.showDialog(App.primaryStage);
-        PackConfig.exportPath = file;
-        path.setText(file.getAbsolutePath());
+        if (!(file == null)){
+            PackConfig.exportPath = file;
+            path.setText(file.getAbsolutePath());
+        }
     }
 
-    public void showFile(ActionEvent actionEvent) {
+    public void showFile() {
         if (showFile.isVisible()){
             if (App.SEPARATOR.equals("\\")){
                 ProcessBuilder builder = new ProcessBuilder("explorer","/select,",PackConfig.successFile.getAbsolutePath());
@@ -158,8 +160,47 @@ public class AppController {
     }
 
     public void iconDropped(DragEvent dragEvent) {
+        Dragboard dragboard = dragEvent.getDragboard();
+        if (dragboard.hasFiles()){
+            List<File> files = dragboard.getFiles();
+            File file = files.get(0);
+            try {
+                BufferedImage image = ImageIO.read(file);
+                if (image.getHeight() != image.getWidth()){
+                    please.setVisible(true);
+                    return;
+                }
+            } catch (IOException e) {
+                App.log.println(e);
+            }
+            iconView.setImage(new Image(file.getAbsolutePath()));
+            icon.setText(file.getAbsolutePath());
+            please.setVisible(false);
+        }
     }
 
     public void iconOver(DragEvent dragEvent) {
+        if (dragEvent.getGestureSource() != icon){
+            dragEvent.acceptTransferModes(TransferMode.ANY);
+        }
+    }
+
+    public void chooseIcon() {
+        FileChooser chooser = new FileChooser();
+        File file = chooser.showOpenDialog(App.primaryStage);
+        if (!(file == null)){
+            try {
+                BufferedImage image = ImageIO.read(file);
+                if (image.getHeight() != image.getWidth()){
+                    please.setVisible(true);
+                    return;
+                }
+            } catch (IOException e) {
+                App.log.println(e);
+            }
+            please.setVisible(false);
+            icon.setText(file.getAbsolutePath());
+            iconView.setImage(new Image(file.getAbsolutePath()));
+        }
     }
 }

@@ -1,59 +1,14 @@
 package org.haok.resourcespackmaker;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class ZipTools {
-    private static final byte[] buf = new byte[1024];
+    private static final byte[] buf = new byte[1024*1024];
 
-
-
-    /**
-     * 压缩成ZIP 方法1
-     *
-     * @param zipFileName       压缩文件夹路径
-     * @param sourceFileName    要压缩的文件路径
-     * @param KeepDirStructure 是否保留原来的目录结构,true:保留目录结构;
-     *                         false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
-     * @throws RuntimeException 压缩失败会抛出运行时异常
-     */
-    public static Boolean toZip(String zipFileName, String sourceFileName, boolean KeepDirStructure) {
-        Boolean result = true;
-        long start = System.currentTimeMillis();//开始
-        ZipOutputStream zos = null;
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(zipFileName);
-            zos = new ZipOutputStream(fileOutputStream);
-            File sourceFile = new File(sourceFileName);
-            compress(sourceFile, zos, sourceFile.getName(), KeepDirStructure);
-            long end = System.currentTimeMillis();//结束
-            System.out.println("压缩完成，耗时：" + (end - start) + " 毫秒");
-        } catch (Exception e) {
-            result = false;
-            e.printStackTrace();
-        } finally {
-            if (zos != null) {
-                try {
-                    zos.close();
-                } catch (IOException e) {
-                    e.getStackTrace();
-                }
-            }
-        }
-        return result;
-    }
-
-    /**
-     * 压缩成ZIP 方法2  一次性压缩多个文件
-     *
-     * @param srcFiles 需要压缩的文件列表
-     * @param zipFileName 压缩文件输出
-     * @throws RuntimeException 压缩失败会抛出运行时异常
-     */
-    public static void toZip(String zipFileName, List<File> srcFiles) throws Exception {
+    public static void toZip(String zipFileName, List<File> srcFiles) {
         long start = System.currentTimeMillis();
         ZipOutputStream zos = null;
         try {
@@ -77,16 +32,6 @@ public class ZipTools {
         }
     }
 
-    /**
-     * 递归压缩方法
-     *
-     * @param sourceFile       源文件
-     * @param zos              zip输出流
-     * @param name             压缩后的名称
-     * @param KeepDirStructure 是否保留原来的目录结构,true:保留目录结构;
-     *                         false:所有文件跑到压缩包根目录下(注意：不保留目录结构可能会出现同名文件,会压缩失败)
-     * @throws Exception
-     */
     public static void compress(File sourceFile, ZipOutputStream zos, String name,
                                 boolean KeepDirStructure) throws Exception {
 
@@ -118,9 +63,9 @@ public class ZipTools {
                     if (KeepDirStructure) {
                         // 注意：file.getName()前面需要带上父文件夹的名字加一斜杠,
                         // 不然最后压缩包中就不能保留原来的文件结构,即：所有文件都跑到压缩包根目录下了
-                        compress(file, zos, name + "/" + file.getName(), KeepDirStructure);
+                        compress(file, zos, name + "/" + file.getName(), true);
                     } else {
-                        compress(file, zos, file.getName(), KeepDirStructure);
+                        compress(file, zos, file.getName(), false);
                     }
 
                 }

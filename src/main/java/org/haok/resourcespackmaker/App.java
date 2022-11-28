@@ -10,12 +10,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class App extends Application {
     static Stage primaryStage;
     static final String SEPARATOR = System.getProperty("file.separator");
     public static PrintStream log;
-    public static final String START_TIME = new Date().toString().replace(" ","_").replace(":","_");
+    public static final String START_TIME = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss").format(new Date());
     public static final String WORK_DIR = System.getProperty("user.dir");
     @Override
     public void start(Stage stage) throws IOException {

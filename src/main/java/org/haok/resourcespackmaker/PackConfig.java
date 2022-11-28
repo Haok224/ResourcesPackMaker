@@ -5,8 +5,6 @@ import javafx.scene.control.Alert;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
 public class PackConfig {
     public static File ttfFile;
@@ -26,19 +24,19 @@ public class PackConfig {
         }
         File packPath = new File(exportPath.getAbsolutePath() + App.SEPARATOR + packName);
         File pack_mcmeta = new File(packPath.getAbsolutePath() + "" + App.SEPARATOR + "pack.mcmeta");
-        System.out.println(packPath.mkdirs());
-        System.out.println(pack_mcmeta.createNewFile());
+        App.log.println("make pack dir:" + packPath.mkdirs());
+        App.log.println("make pack.mcmeta:" + pack_mcmeta.createNewFile());
         BufferedWriter writer = new BufferedWriter(new FileWriter(pack_mcmeta));
         writer.write("{\"pack\":{\"pack_format\":" + packVersion + ",\"description\":\"" + packIntroduction + "\"}}");
         writer.close();
         if (!(ttfFile == null)) {
             File fontPath = new File(packPath.getAbsolutePath() + "" + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "font");
             File fontFile = new File(fontPath.getAbsolutePath() + "" + App.SEPARATOR + "font.ttf");
-            System.out.println(fontPath.mkdirs());
-            System.out.println(fontFile.createNewFile());
+            App.log.println(fontPath.mkdirs());
+            App.log.println(fontFile.createNewFile());
             copy(ttfFile, fontFile);
             File json = new File(fontPath + "" + App.SEPARATOR + "default.json");
-            System.out.println(json.createNewFile());
+            App.log.println("make font json file:" + json.createNewFile());
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(json));
             jsonWriter.write("{\"providers\":[{\"type\":\"ttf\",\"file\":\"minecraft:font.ttf\",\"shift\":[0,1],\"size\":11.0,\"oversample\":4.0}]}");
             jsonWriter.close();
@@ -51,11 +49,13 @@ public class PackConfig {
                 ZipTools.toZip(zipFile.getAbsolutePath(), fileArrayList);
                 successFile = zipFile;
                 File[] files = packPath.listFiles();
-                for (File file : files) {
-                    if (file.isDirectory()) {
-                        file.delete();
-                    } else {
-                        file.delete();
+                for (File file : Objects.requireNonNull(files)) {
+                    if (file != null) {
+                        if (file.isDirectory()) {
+                            App.log.println("delete dir:" + file.delete());
+                        } else {
+                            App.log.println("delete file:" + file.delete());
+                        }
                     }
                 }
             }
