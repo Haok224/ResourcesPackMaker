@@ -37,9 +37,9 @@
                   <Label layoutX="114.0" layoutY="38.0" prefHeight="15.0" prefWidth="485.0" text="请选择一个字体文件来更改Minecraft中的字体。" />
                   <TextField fx:id="ttf_path" editable="false" layoutX="90.0" layoutY="86.0" onDragDropped="#ttf_dropped" onDragOver="#TTFOver" prefHeight="23.0" prefWidth="348.0" />
                   <Button fx:id="chooseTTF" layoutX="438.0" layoutY="86.0" mnemonicParsing="false" onAction="#chooseTTF" text="选择文件" />
-                  <Label fx:id="english" layoutX="99.0" layoutY="178.0" prefHeight="15.0" prefWidth="498.0" text="The quick brown fox jumps over the lazy dog." />
+                  <Label fx:id="english" layoutX="99.0" layoutY="207.0" prefHeight="15.0" prefWidth="502.0" text="The quick brown fox jumps over the lazy dog." />
                   <Label layoutX="99.0" layoutY="163.0" text="预览：" />
-                  <Label fx:id="chinese" layoutX="99.0" layoutY="237.0" text="中国智造，慧及全球。" />
+                  <Label fx:id="chinese" layoutX="99.0" layoutY="280.0" prefHeight="15.0" prefWidth="354.0" text="中国智造，慧及全球。" />
                </children></AnchorPane>
       </content>
     </Tab>
@@ -53,8 +53,25 @@
                   <Label layoutX="14.0" layoutY="59.0" text="4.找到合适的位置" />
                   <Label layoutX="14.0" layoutY="74.0" prefHeight="15.0" prefWidth="197.0" text="/tp @p ~ ~ ~ -90 0按下F2截图" />
                   <Button layoutX="177.0" layoutY="93.0" mnemonicParsing="false" text="选择你得到的图片" />
-                  <TextField editable="false" layoutX="14.0" layoutY="93.0" />
+                  <TextField fx:id="path0" editable="false" layoutX="14.0" layoutY="93.0" />
                   <Label layoutX="14.0" layoutY="116.0" text="/tp @p ~ ~ ~ 0 0 截图" />
+                  <TextField fx:id="path1" layoutX="15.0" layoutY="131.0" />
+                  <Button layoutX="177.0" layoutY="131.0" mnemonicParsing="false" text="选择你得到的图片" />
+                  <Label layoutX="15.0" layoutY="154.0" text="/tp @p ~ ~ ~ 180 0 截图" />
+                  <TextField fx:id="path2" layoutX="16.0" layoutY="169.0" />
+                  <Button layoutX="178.0" layoutY="169.0" mnemonicParsing="false" text="选择你得到的图片" />
+                  <Label layoutX="16.0" layoutY="192.0" text="/tp @p ~ ~ ~ 90 0 截图" />
+                  <TextField fx:id="path3" layoutX="17.0" layoutY="207.0" />
+                  <Button layoutX="178.0" layoutY="207.0" mnemonicParsing="false" text="选择你得到的图片" />
+                  <Label layoutX="17.0" layoutY="230.0" text="/tp @p ~ ~ ~ -90 -90 截图" />
+                  <TextField fx:id="path4" layoutX="18.0" layoutY="245.0" />
+                  <Button layoutX="178.0" layoutY="245.0" mnemonicParsing="false" text="选择你得到的图片" />
+                  <Label layoutX="18.0" layoutY="268.0" text="/tp @p ~ ~ ~ -90 90 截图" />
+                  <TextField fx:id="path5" layoutX="18.0" layoutY="283.0" />
+                  <Button layoutX="180.0" layoutY="283.0" mnemonicParsing="false" text="选择你得到的图片" />
+                  <Label layoutX="300.0" layoutY="112.0" text="静态全景图（1.13+）" />
+                  <Button layoutX="462.0" layoutY="127.0" mnemonicParsing="false" text="选择图片" />
+                  <TextField fx:id="backgroundPath" layoutX="300.0" layoutY="127.0" />
                </children></AnchorPane>
       </content>
     </Tab>

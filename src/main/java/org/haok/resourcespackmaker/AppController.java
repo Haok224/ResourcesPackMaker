@@ -34,6 +34,13 @@ public class AppController {
     public Label please;
     public Label english;
     public Label chinese;
+    public TextField path0;
+    public TextField path1;
+    public TextField path2;
+    public TextField path3;
+    public TextField path4;
+    public TextField path5;
+    public TextField backgroundPath;
     @FXML
     private Button chooseExportPath;
 
