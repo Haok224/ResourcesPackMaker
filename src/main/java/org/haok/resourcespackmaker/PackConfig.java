@@ -95,7 +95,7 @@ public class PackConfig {
     public static boolean deleteDir(File dir) {
         if (dir.isDirectory()) {
             String[] children = dir.list();
-            for (String child : children) {
+            for (String child : Objects.requireNonNull(children)) {
                 boolean success = deleteDir
                         (new File(dir, child));
                 if (!success) {
