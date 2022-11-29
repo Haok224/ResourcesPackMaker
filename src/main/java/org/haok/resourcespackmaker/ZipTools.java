@@ -1,5 +1,7 @@
 package org.haok.resourcespackmaker;
 
+import org.apache.log4j.Logger;
+
 import java.io.*;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -7,8 +9,10 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipTools {
     private static final byte[] buf = new byte[1024 * 1024];
-
+    private static final Logger LOGGER = Logger.getLogger(ZipTools.class);
     public static void toZip(String zipFileName, List<File> srcFiles) {
+        LOGGER.debug("zip file name:"+zipFileName);
+        LOGGER.debug(srcFiles);
         ZipOutputStream zos = null;
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(zipFileName);

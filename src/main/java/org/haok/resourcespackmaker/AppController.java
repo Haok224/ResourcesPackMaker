@@ -50,6 +50,12 @@ public class AppController {
     public Button btn2;
     public Button btn1;
     public Button btn0;
+    public TextField loadBackground0Path;
+    public Button chooseLoadBackground0;
+    public ImageView loadBackground0View;
+    public TextField loadBackgroundPath1;
+    public Button chooseLoadBackground1;
+    public ImageView loadBackgroundView1;
     @FXML
     private Button chooseExportPath;
 
@@ -86,7 +92,7 @@ public class AppController {
             if (file.getAbsolutePath().endsWith(".ttf") || file.getAbsolutePath().endsWith(".TTF")) {
                 setFont(file);
             }
-            LOGGER.debug("ttf file:"+file.getAbsolutePath());
+            LOGGER.debug("ttf file:" + file.getAbsolutePath());
         }
     }
 
@@ -108,7 +114,7 @@ public class AppController {
         }
         ttf_path.setText(file.getAbsolutePath());
         setFont(file);
-        LOGGER.debug("choose ttf file:"+file.getAbsolutePath());
+        LOGGER.debug("choose ttf file:" + file.getAbsolutePath());
     }
 
     private void setFont(File file) {
@@ -118,7 +124,7 @@ public class AppController {
             english.setFont(Font.loadFont(new FileInputStream(file), 16));
             chinese.setFont(Font.loadFont(new FileInputStream(file), 16));
         } catch (FileNotFoundException e) {
-            LOGGER.warn(e.getMessage(), e);
+            fileNotFound(e);
         }
     }
 
@@ -156,7 +162,7 @@ public class AppController {
         try {
             PackConfig.makePack(isZip.isSelected());
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.warn(e.getMessage(), e);
         }
         if (PackConfig.success) {
             showText.setVisible(true);
@@ -171,7 +177,7 @@ public class AppController {
         if (!(file == null)) {
             PackConfig.exportPath = file;
             path.setText(file.getAbsolutePath());
-            LOGGER.debug("export path:"+file.getAbsolutePath());
+            LOGGER.debug("export path:" + file.getAbsolutePath());
         }
     }
 
@@ -182,14 +188,14 @@ public class AppController {
                 try {
                     builder.start();
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    LOGGER.warn(e.getMessage(), e);
                 }
             } else if (Desktop.isDesktopSupported()) {
 
                 try {
                     Desktop.getDesktop().open(PackConfig.exportPath);
                 } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    LOGGER.warn(e.getMessage(), e);
                 }
             }
         }
@@ -207,14 +213,27 @@ public class AppController {
                     return;
                 }
             } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
+                if (e instanceof FileNotFoundException) {
+                    fileNotFound(e);
+                } else {
+                    LOGGER.warn(e.getMessage(), e);
+                }
             }
             iconView.setImage(new Image(file.getAbsolutePath()));
             icon.setText(file.getAbsolutePath());
             please.setVisible(false);
             PackConfig.iconFile = file;
-            LOGGER.debug("icon file:"+file.getAbsolutePath());
+            LOGGER.debug("icon file:" + file.getAbsolutePath());
         }
+    }
+
+    public static void fileNotFound(Throwable t) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("系统找不到指定的文件");
+        alert.setHeaderText("系统找不到指定的文件");
+        alert.setContentText("文件可能不存在或当前用户没有访问权限。");
+        alert.show();
+        LOGGER.warn(t.getMessage(), t);
     }
 
     public void iconOver(DragEvent dragEvent) {
@@ -224,97 +243,87 @@ public class AppController {
     }
 
     public void chooseIcon() {
-        FileChooser chooser = new FileChooser();
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("图片文件", "*.png"));
-        chooser.setTitle("选择图片");
-        File file = chooser.showOpenDialog(App.primaryStage);
-        if (!(file == null)) {
-            try {
-                BufferedImage image = ImageIO.read(file);
-                if (image.getHeight() != image.getWidth()) {
-                    please.setVisible(true);
-                    return;
-                }
-            } catch (IOException e) {
-                LOGGER.error(e.getMessage(), e);
+        File file = chooseImage();
+        try {
+            BufferedImage image = ImageIO.read(file);
+            if (image.getHeight() != image.getWidth()) {
+                please.setVisible(true);
+                return;
             }
-            please.setVisible(false);
-            icon.setText(file.getAbsolutePath());
-            iconView.setImage(new Image(file.getAbsolutePath()));
-            PackConfig.iconFile = file;
-            LOGGER.debug("choose icon image:"+file.getAbsolutePath());
+        } catch (IOException e) {
+            if (e instanceof FileNotFoundException) {
+                fileNotFound(e);
+            } else {
+                LOGGER.warn(e.getMessage(), e);
+            }
         }
+        please.setVisible(false);
+        icon.setText(file.getAbsolutePath());
+        iconView.setImage(new Image(file.getAbsolutePath()));
+        PackConfig.iconFile = file;
+        LOGGER.debug("choose icon image:" + file.getAbsolutePath());
     }
 
     public void chooseBackground() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         backgroundPath.setText(file.getAbsolutePath());
         PackConfig.background = file;
     }
 
     public void choose5() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         path5.setText(file.getAbsolutePath());
         PackConfig.panorama5 = file;
     }
 
     public void choose4() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         path4.setText(file.getAbsolutePath());
         PackConfig.panorama4 = file;
     }
 
     public void choose3() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         path3.setText(file.getAbsolutePath());
         PackConfig.panorama3 = file;
     }
 
     public void choose2() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         path2.setText(file.getAbsolutePath());
         PackConfig.panorama2 = file;
     }
 
     public void choose1() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         path1.setText(file.getAbsolutePath());
         PackConfig.panorama1 = file;
     }
 
     public void choose0() {
-        File file = choosePanorama();
-        if ((file == null)) {
-            return;
-        }
+        File file = chooseImage();
         path0.setText(file.getAbsolutePath());
         PackConfig.panorama0 = file;
     }
 
-    private static File choosePanorama() {
+    private static File chooseImage() {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("图片文件", "*.png"));
         chooser.setTitle("选择文件");
         File file = chooser.showOpenDialog(App.primaryStage);
         LOGGER.debug("choose file:" + file.getAbsolutePath());
         return file;
+    }
+
+    public void chooseLoadBackground0() {
+        File file = chooseImage();
+        PackConfig.loadBackground0 = file;
+        loadBackground0View.setImage(new Image(file.getAbsolutePath()));
+        loadBackground0Path.setText(file.getAbsolutePath());
+    }
+
+    public void chooseLoadBackground1() {
+        //TODO
+        //File file = chooseImage();
     }
 }

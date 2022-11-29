@@ -80,6 +80,12 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                <children>
                   <Label layoutX="14.0" layoutY="14.0" text="此功能需要Optifine。" />
+                  <TextField fx:id="loadBackground0Path" editable="false" layoutX="14.0" layoutY="65.0" />
+                  <Button fx:id="chooseLoadBackground0" layoutX="176.0" layoutY="65.0" mnemonicParsing="false" onAction="#chooseLoadBackground0" text="选择文件" />
+                  <ImageView fx:id="loadBackground0View" fitHeight="259.0" fitWidth="242.0" layoutX="8.0" layoutY="102.0" pickOnBounds="true" preserveRatio="true" />
+                  <TextField fx:id="loadBackgroundPath1" editable="false" layoutX="300.0" layoutY="65.0" />
+                  <Button fx:id="chooseLoadBackground1" layoutX="462.0" layoutY="65.0" mnemonicParsing="false" onAction="#chooseLoadBackground1" text="选择文件" />
+                  <ImageView fx:id="loadBackgroundView1" fitHeight="259.0" fitWidth="242.0" layoutX="292.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
         </content>
