@@ -15,13 +15,17 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        LOGGER.debug("------------------Application start.------------------");
+        LOGGER.debug("------------------Application start------------------");
         primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("资源包制作器");
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(windowEvent -> {
+            LOGGER.debug("------------------Application end------------------");
+            stage.close();
+        });
     }
 
     public static void main(String[] args) {
