@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PackConfig {
     public static File loadBackground0;
@@ -30,14 +31,14 @@ public class PackConfig {
         }
         File packPath = new File(exportPath.getAbsolutePath() + App.SEPARATOR + packName);
         File pack_mcmeta = new File(packPath.getAbsolutePath() + App.SEPARATOR + "pack.mcmeta");
-        LOGGER.debug("make pack dir:" + packPath.mkdirs());
+        LOGGER.debug("make pack directory:" + packPath.mkdirs());
         LOGGER.debug("make pack.mcmeta:" + pack_mcmeta.createNewFile());
         BufferedWriter writer = new BufferedWriter(new FileWriter(pack_mcmeta));
         writer.write("{\"pack\":{\"pack_format\":" + packVersion + ",\"description\":\"" + packIntroduction + "\"}}");
         writer.close();
         if (!(ttfFile == null)) {
             File fontPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "font");
-            LOGGER.debug(fontPath.mkdirs());
+            LOGGER.debug("make font directory"+fontPath.mkdirs());
             File fontFile = new File(fontPath.getAbsolutePath() + App.SEPARATOR + "font.ttf");
             copy(ttfFile, fontFile);
             File json = new File(fontPath + App.SEPARATOR + "default.json");
@@ -49,6 +50,48 @@ public class PackConfig {
             if (!(iconFile == null)) {
                 icon = new File(packPath.getAbsolutePath() + App.SEPARATOR + "pack.png");
                 copy(iconFile, icon);
+            }
+            if (panorama0 != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_0 = new File(panoramaPath.getAbsolutePath() + "panorama_0.png");
+                copy(panorama0, panorama_0);
+            }
+            if (panorama1 != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_1 = new File(panoramaPath.getAbsolutePath() + "panorama_1.png");
+                copy(panorama0, panorama_1);
+            }
+            if (panorama2 != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_2 = new File(panoramaPath.getAbsolutePath() + "panorama_2.png");
+                copy(panorama0, panorama_2);
+            }
+            if (panorama3 != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_3 = new File(panoramaPath.getAbsolutePath() + "panorama_3.png");
+                copy(panorama0, panorama_3);
+            }
+            if (panorama4 != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_4 = new File(panoramaPath.getAbsolutePath() + "panorama_4.png");
+                copy(panorama0, panorama_4);
+            }
+            if (panorama5 != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_5 = new File(panoramaPath.getAbsolutePath() + "panorama_5.png");
+                copy(panorama0, panorama_5);
+            }
+            if (background != null) {
+                File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
+                LOGGER.debug("make panorama directory:" + panoramaPath.mkdirs());
+                File panorama_overlay = new File(panoramaPath.getAbsolutePath() + App.SEPARATOR + "panorama_overlay.png");
+                copy(background, panorama_overlay);
             }
             successFile = packPath;
             if (isZip) {
@@ -63,48 +106,6 @@ public class PackConfig {
                 successFile = zipFile;
                 deleteDir(packPath);
             }
-        }
-        if (panorama0 != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_0 = new File(panoramaPath.getAbsolutePath() + "panorama_0.png");
-            copy(panorama0, panorama_0);
-        }
-        if (panorama1 != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_1 = new File(panoramaPath.getAbsolutePath() + "panorama_1.png");
-            copy(panorama0, panorama_1);
-        }
-        if (panorama2 != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_2 = new File(panoramaPath.getAbsolutePath() + "panorama_2.png");
-            copy(panorama0, panorama_2);
-        }
-        if (panorama3 != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_3 = new File(panoramaPath.getAbsolutePath() + "panorama_3.png");
-            copy(panorama0, panorama_3);
-        }
-        if (panorama4 != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_4 = new File(panoramaPath.getAbsolutePath() + "panorama_4.png");
-            copy(panorama0, panorama_4);
-        }
-        if (panorama5 != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_5 = new File(panoramaPath.getAbsolutePath() + "panorama_5.png");
-            copy(panorama0, panorama_5);
-        }
-        if (background != null) {
-            File panoramaPath = new File(packPath.getAbsolutePath() + App.SEPARATOR + "assets" + App.SEPARATOR + "minecraft" + App.SEPARATOR + "textures" + App.SEPARATOR + "gui" + App.SEPARATOR + "title" + App.SEPARATOR + "background");
-            LOGGER.debug("make panorama path:" + panoramaPath.mkdirs());
-            File panorama_overlay = new File(panoramaPath.getAbsolutePath() + App.SEPARATOR + "panorama_overlay.png");
-            copy(background, panorama_overlay);
         }
         success = true;
     }
@@ -123,17 +124,19 @@ public class PackConfig {
         }
     }
 
-    public static void deleteDir(File index) {
-        if (index.isDirectory()) {
-            File[] files = index.listFiles();
-            if (files != null) {
-                for (File in : files) {
-                    deleteDir(in);
+    public static boolean deleteDir(File dir) {
+        if (dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < Objects.requireNonNull(children).length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+
+                if (!success) {
+                    return false;
                 }
             }
         }
-        LOGGER.debug("delete file : "+index.delete());
-        LOGGER.debug("delete success");
+        LOGGER.debug("The directory is deleted.");
+        return dir.delete();
     }
 
 }
