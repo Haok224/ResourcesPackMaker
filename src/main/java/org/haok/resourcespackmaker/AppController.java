@@ -15,6 +15,7 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class AppController {
+    private static final Logger LOGGER = Logger.getLogger(AppController.class);
     public Button showFile;
     public Label showText;
     public TextField icon;
@@ -76,7 +78,7 @@ public class AppController {
     private TextField ttf_path;
 
     @FXML
-    void ttf_dropped(DragEvent event) {
+    void TTFDropped(DragEvent event) {
         Dragboard dragboard = event.getDragboard();
         if (dragboard.hasFiles()) {
             List<File> files = dragboard.getFiles();
@@ -84,6 +86,7 @@ public class AppController {
             if (file.getAbsolutePath().endsWith(".ttf") || file.getAbsolutePath().endsWith(".TTF")) {
                 setFont(file);
             }
+            LOGGER.debug("ttf file:"+file.getAbsolutePath());
         }
     }
 
@@ -105,6 +108,7 @@ public class AppController {
         }
         ttf_path.setText(file.getAbsolutePath());
         setFont(file);
+        LOGGER.debug("choose ttf file:"+file.getAbsolutePath());
     }
 
     private void setFont(File file) {
@@ -114,11 +118,12 @@ public class AppController {
             english.setFont(Font.loadFont(new FileInputStream(file), 16));
             chinese.setFont(Font.loadFont(new FileInputStream(file), 16));
         } catch (FileNotFoundException e) {
-            App.log.println(e);
+            LOGGER.warn(e.getMessage(), e);
         }
     }
 
     public void make() {
+        LOGGER.debug("make pack.");
         PackConfig.packName = pack_name.getText();
         PackConfig.packIntroduction = packIntroduction.getText();
         try {
@@ -129,7 +134,7 @@ public class AppController {
             alert.setHeaderText("版本号输入有误");
             alert.setContentText("请不要在输入框内输入除数字以外的字符。");
             alert.show();
-            App.log.println(e);
+            LOGGER.info(e.getMessage(), e);
             return;
         }
         if (path.getText().equals("")) {
@@ -140,11 +145,18 @@ public class AppController {
             alert.show();
             return;
         }
+        if (PackConfig.packName.equals("")) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("错误");
+            alert.setHeaderText("资源包名称为空");
+            alert.setContentText("请检查“基础设置”选项卡。");
+            alert.show();
+        }
         PackConfig.exportPath = new File(path.getText());
         try {
             PackConfig.makePack(isZip.isSelected());
         } catch (Exception e) {
-            App.log.println(e);
+            LOGGER.error(e.getMessage(), e);
         }
         if (PackConfig.success) {
             showText.setVisible(true);
@@ -159,6 +171,7 @@ public class AppController {
         if (!(file == null)) {
             PackConfig.exportPath = file;
             path.setText(file.getAbsolutePath());
+            LOGGER.debug("export path:"+file.getAbsolutePath());
         }
     }
 
@@ -194,12 +207,13 @@ public class AppController {
                     return;
                 }
             } catch (IOException e) {
-                App.log.println(e);
+                LOGGER.error(e.getMessage(), e);
             }
             iconView.setImage(new Image(file.getAbsolutePath()));
             icon.setText(file.getAbsolutePath());
             please.setVisible(false);
             PackConfig.iconFile = file;
+            LOGGER.debug("icon file:"+file.getAbsolutePath());
         }
     }
 
@@ -222,18 +236,19 @@ public class AppController {
                     return;
                 }
             } catch (IOException e) {
-                App.log.println(e);
+                LOGGER.error(e.getMessage(), e);
             }
             please.setVisible(false);
             icon.setText(file.getAbsolutePath());
             iconView.setImage(new Image(file.getAbsolutePath()));
             PackConfig.iconFile = file;
+            LOGGER.debug("choose icon image:"+file.getAbsolutePath());
         }
     }
 
     public void chooseBackground() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         backgroundPath.setText(file.getAbsolutePath());
@@ -242,7 +257,7 @@ public class AppController {
 
     public void choose5() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         path5.setText(file.getAbsolutePath());
@@ -251,7 +266,7 @@ public class AppController {
 
     public void choose4() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         path4.setText(file.getAbsolutePath());
@@ -260,7 +275,7 @@ public class AppController {
 
     public void choose3() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         path3.setText(file.getAbsolutePath());
@@ -269,7 +284,7 @@ public class AppController {
 
     public void choose2() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         path2.setText(file.getAbsolutePath());
@@ -278,7 +293,7 @@ public class AppController {
 
     public void choose1() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         path1.setText(file.getAbsolutePath());
@@ -287,7 +302,7 @@ public class AppController {
 
     public void choose0() {
         File file = choosePanorama();
-        if ((file == null)){
+        if ((file == null)) {
             return;
         }
         path0.setText(file.getAbsolutePath());
@@ -298,6 +313,8 @@ public class AppController {
         FileChooser chooser = new FileChooser();
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("图片文件", "*.png"));
         chooser.setTitle("选择文件");
-        return chooser.showOpenDialog(App.primaryStage);
+        File file = chooser.showOpenDialog(App.primaryStage);
+        LOGGER.debug("choose file:" + file.getAbsolutePath());
+        return file;
     }
 }
