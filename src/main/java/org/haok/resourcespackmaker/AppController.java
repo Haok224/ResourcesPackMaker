@@ -15,7 +15,8 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -27,7 +28,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class AppController {
-    private static final Logger LOGGER = Logger.getLogger(AppController.class);
+    private static final Logger LOGGER = LogManager.getLogger(AppController.class);
     public Button showFile;
     public Label showText;
     public TextField icon;
@@ -160,7 +161,7 @@ public class AppController {
         }
         PackConfig.exportPath = new File(path.getText());
         try {
-            PackConfig.makePack(isZip.isSelected());
+            PackMaker.makePack(isZip.isSelected());
         } catch (Exception e) {
             LOGGER.warn(e.getMessage(), e);
         }
