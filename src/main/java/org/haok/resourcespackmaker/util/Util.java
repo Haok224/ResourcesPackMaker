@@ -1,7 +1,7 @@
 package org.haok.resourcespackmaker.util;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.haok.resourcespackmaker.log.LogFactory;
+import org.haok.resourcespackmaker.log.LogPrintStream;
 
 import java.io.*;
 import java.util.List;
@@ -10,12 +10,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Util {
-    private static final Logger LOGGER = LogManager.getLogger(Util.class);
+    private static final LogPrintStream logger = LogFactory.getLogger(Util.class);
     private static final byte[] buf = new byte[1024 * 1024];
     public static void copy(File source, File dest) throws IOException {
-        LOGGER.debug("copy file from " + source.getAbsolutePath() + " to " + dest.getAbsolutePath());
+        logger.println("copy file from " + source.getAbsolutePath() + " to " + dest.getAbsolutePath());
         if (!dest.isFile()) {
-            LOGGER.debug("the dest file does not exists. create new file:" + dest.createNewFile());
+            logger.println("the dest file does not exists. create new file:" + dest.createNewFile());
         }
         try (InputStream input = new FileInputStream(source); OutputStream output = new FileOutputStream(dest)) {
             byte[] buf = new byte[1024];
@@ -37,12 +37,12 @@ public class Util {
                 }
             }
         }
-        LOGGER.debug("The directory is deleted.");
+        logger.println("The directory is deleted.");
         return dir.delete();
     }
     public static void toZip(String zipFileName, List<File> srcFiles) {
-        LOGGER.debug("zip file name:"+zipFileName);
-        LOGGER.debug(srcFiles);
+        logger.println("zip file name:"+zipFileName);
+        logger.println(srcFiles);
         ZipOutputStream zos = null;
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(zipFileName);
