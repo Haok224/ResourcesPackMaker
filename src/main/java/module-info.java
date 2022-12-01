@@ -7,4 +7,6 @@ module org.haok.resourcespackmaker {
     exports org.haok.resourcespackmaker;
     exports org.haok.resourcespackmaker.util;
     exports org.haok.resourcespackmaker.log;
+    exports org.haok.resourcespackmaker.pack;
+    opens org.haok.resourcespackmaker.pack to javafx.fxml;
 }

@@ -1,6 +1,8 @@
 package org.haok.resourcespackmaker;
 
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
+import org.haok.resourcespackmaker.pack.Pack;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,8 +10,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static org.haok.resourcespackmaker.util.Util.*;
 import static org.haok.resourcespackmaker.PackConfig.*;
+import static org.haok.resourcespackmaker.util.Util.*;
 
 public class PackMaker {
     static File icon = null;
@@ -39,14 +41,17 @@ public class PackMaker {
             App.logger.info("make default.json file:" + jsonFile.createNewFile());
             BufferedWriter jsonWriter = new BufferedWriter(new FileWriter(jsonFile));
             {
-                JSONObject object = new JSONObject();
-                int[] shift = new int[]{
-                        0,
-                        1
-                };
-                FontProviders providers = new FontProviders("ttf", "minecraft:font.ttf", shift, 11.0, 4.0);
-                object.put("providers", providers);
-                String json = object.toJSONString();
+                HashMap<String,Object> set = new HashMap<>();
+                HashMap<String,Object> map = new HashMap<>();
+                map.put("type","ttf");
+                map.put("file","minecraft:font.ttf");
+                map.put("shift",new int[]{0,1});
+                map.put("size",11.0);
+                map.put("oversample",4.0);
+                HashMap[] maps = new HashMap[]{map};
+                set.put("providers",maps);
+                String json = JSON.toJSONString(set);
+                App.logger.info("default json file content:\n"+json);
                 jsonWriter.write(json);
             }
             jsonWriter.close();

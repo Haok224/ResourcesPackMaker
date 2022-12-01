@@ -1,4 +1,4 @@
-package org.haok.resourcespackmaker;
+package org.haok.resourcespackmaker.pack;
 
 @SuppressWarnings({"all"})
 public class Pack{

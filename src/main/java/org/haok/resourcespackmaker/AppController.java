@@ -309,5 +309,6 @@ public class AppController {
     public void chooseLoadBackground1() {
         //TODO
         //File file = chooseImage();
+        System.out.println("TODO!!!");
     }
 }
