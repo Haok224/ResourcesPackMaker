@@ -14,6 +14,7 @@ public class PackConfig {
     public static File iconFile;
     public static File panorama0;
     public static File panorama1;
+
     public static File panorama2;
     public static File panorama3;
     public static File panorama4;

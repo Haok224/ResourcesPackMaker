@@ -1,7 +1,6 @@
 package org.haok.resourcespackmaker.util;
 
-import org.haok.resourcespackmaker.log.LogFactory;
-import org.haok.resourcespackmaker.log.LogPrintStream;
+import org.haok.resourcespackmaker.App;
 
 import java.io.*;
 import java.util.List;
@@ -10,13 +9,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Util {
-    private static final LogPrintStream logger = LogFactory.getLogger(Util.class);
     private static final byte[] buf = new byte[1024 * 1024];
     public static void copy(File source, File dest) throws IOException {
-        logger.println("copy file from " + source.getAbsolutePath() + " to " + dest.getAbsolutePath());
         if (!dest.isFile()) {
-            logger.println("the dest file does not exists. create new file:" + dest.createNewFile());
+            App.logger.info("dest file is not a file. create new file:"+dest.createNewFile());
         }
+        App.logger.info("copy file from:"+source+" to: "+dest);
         try (InputStream input = new FileInputStream(source); OutputStream output = new FileOutputStream(dest)) {
             byte[] buf = new byte[1024];
             int bytesRead;
@@ -26,24 +24,23 @@ public class Util {
         }
     }
 
-    public static boolean deleteDir(File dir) {
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
+    public static boolean deleteDir(File directory) {
+        App.logger.info("delete directory:"+directory);
+        if (directory.isDirectory()) {
+            String[] children = directory.list();
             for (int i = 0; i < Objects.requireNonNull(children).length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
+                boolean success = deleteDir(new File(directory, children[i]));
 
                 if (!success) {
                     return false;
                 }
             }
         }
-        logger.println("The directory is deleted.");
-        return dir.delete();
+        return directory.delete();
     }
     public static void toZip(String zipFileName, List<File> srcFiles) {
-        logger.println("zip file name:"+zipFileName);
-        logger.println(srcFiles);
         ZipOutputStream zos = null;
+        App.logger.info("to zip scr files:"+srcFiles);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(zipFileName);
             zos = new ZipOutputStream(fileOutputStream);
@@ -51,7 +48,7 @@ public class Util {
                 compress(srcFile, zos, srcFile.getName(), true);
             }
         } catch (Exception e) {
-            throw new RuntimeException("zip error from ZipUtils", e);
+            throw new RuntimeException("zip error from Util", e);
         } finally {
             if (zos != null) {
                 try {

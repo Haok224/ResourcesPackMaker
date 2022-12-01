@@ -4,16 +4,15 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.haok.resourcespackmaker.log.LogFactory;
-import org.haok.resourcespackmaker.log.LogPrintStream;
+import org.haok.resourcespackmaker.log.Logger;
 
 public class App extends Application {
     static Stage primaryStage;
     static final String SEPARATOR = System.getProperty("file.separator");
-    public static LogPrintStream logger = LogFactory.getLogger(App.class);
+    public static final Logger logger = new Logger();
     @Override
     public void start(Stage stage) throws Exception {
-        logger.println("------------------Application start------------------");
+        logger.info("--App start now--");
         primaryStage = stage;
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -21,7 +20,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.show();
         stage.setOnCloseRequest(windowEvent -> {
-            logger.println("------------------Application end------------------");
+            logger.info("--App end now--");
             stage.close();
         });
     }
