@@ -38,11 +38,20 @@ public class Util {
         }
         return directory.delete();
     }
+    public static String getFileType(String fileName) {
+        String[] strArray = fileName.split("\\.");
+        int suffixIndex = strArray.length -1;
+        return strArray[suffixIndex];
+    }
     public static void toZip(String zipFileName, List<File> srcFiles) {
         ZipOutputStream zos = null;
         App.logger.info("to zip scr files:"+srcFiles);
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(zipFileName);
+            File file = new File(zipFileName);
+            if (!file.isFile()){
+                App.logger.info("create zip file:"+file.createNewFile());
+            }
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
             zos = new ZipOutputStream(fileOutputStream);
             for (File srcFile : srcFiles) {
                 compress(srcFile, zos, srcFile.getName(), true);
